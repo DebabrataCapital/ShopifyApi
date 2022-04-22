@@ -1,11 +1,24 @@
 <?php
-
   echo "Magento Login"."</br>";
-
 ?>
 
 
+
 <?php
+
+
+  $webhook_content = NULL;  
+
+  // Get webhook content from the POST
+  $webhook = fopen('php://input' , 'rb');
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  //print_r($data);
+
+  $log = fopen('ordernew.log', 'w') or die ('can not open the file');
+  fwrite($log, print_r($data, true));
+  fwrite($log, $id, true);
+  fclose($log);
 
   /*
     $servername = "localhost";
