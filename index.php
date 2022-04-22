@@ -114,6 +114,12 @@
         $message .= "</table>";
         $message .= "</body></html>";
         echo $message;
+
+        $log1 = fopen('orderdata.log', 'w') or die ('can not open the file');
+        fwrite($log1, print_r($data, true));
+        fwrite($log1, $id, true);
+        fwrite($log1, $order_number, true);
+        fclose($log1);
         //$conn->close();
         
         
