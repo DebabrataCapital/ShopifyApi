@@ -103,51 +103,7 @@
           }
         }
 
-        /*
-        if($id){
-
-          $url = "lm.nerdydragon.com/customapi/getpostval.php?order_id=$id"; // Specify your url
-          $data = array('id'=>$id,'checkout_id'=> $checkout_id, 'order_number' => $order_number); // Add parameters in key value
-          $ch = curl_init(); // Initialize cURL
-          curl_setopt($ch, CURLOPT_URL,$url);
-          curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-          curl_exec($ch);
-          curl_close($ch);
-        }else{
-          echo "not call the file";
-        }
-        */
-        /*
-        if(!empty($id)){
-          $curl = curl_init();
-          $data = array('id'=>$id,'checkout_id'=> $checkout_id, 'order_number' => $order_number); // Add parameters in key value
-          //$data = array("id" => $id, "name" => $name, "address" => $address,"phone"=>$phone);
-          //$payload = json_encode( array( "customer"=> $data ) );
-
-          curl_setopt_array($curl, array(
-            CURLOPT_URL => "lm.nerdydragon.com/customapi/getpostval.php?order_id=$id",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURLOPT_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS, http_build_query($data),
-            //CURLOPT_POSTFIELDS, $payload,
-            //curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
-          ));
-
-          $resp = curl_exec($curl);
-          curl_close($curl);
-
-          echo "<pre>" . $resp. "</pre>";
-
-        }else{
-          echo "not call 2nd file";
-        }
-        */
+        
 
 
 
