@@ -53,7 +53,7 @@
       $deliveryService = "Default";
     }
 
-    $log = fopen('fulfilment.log', 'w') or die ('can not open the file');
+    $log = fopen('ordernew.log', 'w') or die ('can not open the file');
     //$myJSON = json_encode($lineItemVal1);
     //fwrite($log, $myJSON);
     //fwrite($log, print_r($data, true));
