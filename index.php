@@ -8,7 +8,7 @@
     $webhook = fopen('php://input' , 'rb');
     $data = json_decode(file_get_contents('php://input'), true);
 
-    //print_r($data);
+    print_r($data);
     $lineItemVal1 = array();
     $log = fopen('fulfilment.log', 'w') or die ('can not open the file');
 
