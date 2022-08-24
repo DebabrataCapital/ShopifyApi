@@ -2,6 +2,10 @@
 
     //echo "Shopify Order API"."</br>";
 
+    $log_test = fopen('ordernew.log', 'w') or die ('can not open the file');
+    fwrite($log_test, 'Test');
+    fclose($log_test);
+    
     $webhook_content = NULL;  
 
     // Get webhook content from the POST
