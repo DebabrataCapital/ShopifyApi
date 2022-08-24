@@ -1,116 +1,126 @@
 <?php
 
-    //echo "Shopify Order API"."</br>";
+//echo "Shopify Order API"."</br>";
 
-    $log_test = fopen('ordernew.log', 'w') or die ('can not open the file');
-    fwrite($log_test, 'Test');
-    fclose($log_test);
-    
-    $webhook_content = NULL;  
+$webhook_content = NULL;
 
-    // Get webhook content from the POST
-    $webhook = fopen('php://input' , 'rb');
-    $data = json_decode(file_get_contents('php://input'), true);
+// Get webhook content from the POST
+$webhook = fopen('php://input', 'rb');
+$data = json_decode(file_get_contents('php://input'), true);
+$lineItemVal1 = array();
 
-    print_r($data);
-    $lineItemVal1 = array();
-
-    $lineItemVal = $data['line_items'];
-    foreach($lineItemVal as $key => $lineItem){
-
-      $lineItemVal1[$key]['LineItemId']   = $lineItem['id'];
-      $lineItemVal1[$key]['GarmentSku'] = $lineItem['sku'];
-      $lineItemVal1[$key]['IsHire'] = true;
-      $lineItemVal1[$key]['ItemPrice'] = $lineItem['price'];
-      $lineItemVal1[$key]['ItemQuantity'] = $lineItem['quantity'];
-      $lineItemVal1[$key]['ItemVariantId'] = $lineItem['variant_id'];
-      $lineItemVal1[$key]['Misc11'] = null;
-      $lineItemVal1[$key]['Measurement1'] = 44;
-      $lineItemVal1[$key]['Measurement2'] = "S";
-
+$lineItemVal = $data['line_items'];
+foreach ($lineItemVal as $key => $lineItem) {
+  $measurement_arr = array();
+  if ($lineItem['variant_title']) {
+    $measurement = explode(" \/ ", $str);
+    foreach ($measurement as $k => $item) {
+      $key = 'Measurement' . $k + 1;
+      $measurement_arr[$key] = $item;
     }
+  }
+  $lineItems = array(
+    'LineItemId'   => $lineItem['id'],
+    'GarmentSku' => $lineItem['sku'],
+    'IsHire' => true,
+    'ItemPrice' => $lineItem['price'],
+    'ItemQuantity' => $lineItem['quantity'],
+    'ItemVariantId' => $lineItem['variant_id'],
+    'Misc11' => null,
+    "Misc12" => null,
+    "Misc13" => null,
+    "Misc14" => null,
+    "Misc15" => null
+  );
+  $final = array_merge($lineItems, $measurement_arr);
+  $json[] = $final;
+}
 
-    $id           = $data['id'];
-    $checkout_id  = $data['checkout_id'];
-    $order_number = $data['order_number'];
-    $email        = $data['email'];
-    $first_name   = $data['billing_address']['first_name'];
-    $last_name    = $data['billing_address']['last_name'];
-    $zip          = $data['shipping_address']['zip'];
-    $created_at   = $data['created_at'];
-    $city         = $data['shipping_address']['city'];
-    $country      = $data['shipping_address']['country'];
-    $address1     = $data['shipping_address']['address1'];
-    $address2     = $data['shipping_address']['address2'];
-    $phone        = $data['shipping_address']['phone'];
+$id           = $data['id'];
+$checkout_id  = $data['checkout_id'];
+$order_number = $data['order_number'];
+$email        = $data['email'];
+$first_name   = $data['billing_address']['first_name'];
+$last_name    = $data['billing_address']['last_name'];
+$zip          = $data['shipping_address']['zip'];
+$created_at   = $data['created_at'];
+$city         = $data['shipping_address']['city'];
+$country      = $data['shipping_address']['country'];
+$address1     = $data['shipping_address']['address1'];
+$address2     = $data['shipping_address']['address2'];
+$phone        = $data['shipping_address']['phone'];
 
+$deliveryService = "48";
+$deliveryAgent = "RM";
+$day = 2;
 
-    if(array_key_exists('code',$data['shipping_lines'])){
-      if (strstr($data['shipping_lines']['code'], "Standard")){
-        $deliveryService = "RM";
-      }else if (strstr($data['shipping_lines']['code'], "XL")){
-        $deliveryService = "ND";
-      }else{
-        $deliveryService = "Default";
-      }
-    }else{
-      $deliveryService = "Default";
-    }
+if (array_key_exists('code', $data['shipping_lines'])) {
+  if (strstr($data['shipping_lines']['code'], "Standard")) {
+    $deliveryService = "48";
+    $deliveryAgent = "RM";
+    $day = 2;
+  } else if (strstr($data['shipping_lines']['code'], "XL")) {
+    $deliveryService = "ND";
+    $deliveryAgent = "DPD";
+    $day = 1;
+  }
+}
 
-    $log = fopen('ordernew.log', 'w') or die ('can not open the file');
-    //$myJSON = json_encode($lineItemVal1);
-    //fwrite($log, $myJSON);
-    //fwrite($log, print_r($data, true));
-    
-    fwrite($log, $order_number);
-    fwrite($log, $first_name);
-    fwrite($log, $last_name);
-    fclose($log);
+// Add days 
+$dispatchDate = date('Y-m-d', strtotime($date + $day . ' days'));
+$deliveryDate = date('Y-m-d', strtotime($dispatchDate . ' + 2 days'));
+$eventDate = date('Y-m-d', strtotime($dispatchDate . ' + 2 days'));
+$warehouseReturnDate = date('Y-m-d', strtotime($dispatchDate . ' +100 years'));
 
+$myObj = new stdClass();
+$myObj->AccountCode = "TESTACS";
+$myObj->OrderNumber = $order_number;
+$myObj->OrderDate = date("Y-m-d", strtotime($created_at));
+$myObj->DispatchDate = $dispatchDate;
+$myObj->DeliveryDate = $deliveryDate;
+$myObj->EventDate = $eventDate;
+$myObj->WarehouseReturnDate = $warehouseReturnDate;
 
-    // Date + 3 days
-    $date = $created_at;
-    // Add days 
-    $dispatchDate = date('Y-m-d', strtotime($date. ' + 3 days')); 
-    $deliveryDate = date('Y-m-d', strtotime($date. ' + 4 days')); 
-    $eventDate = date('Y-m-d', strtotime($date. ' + 5 days')); 
-    $warehouseReturnDate = date('Y-m-d', strtotime($date. ' + 10 days')); 
+$myObj->FirstName = $first_name;
+$myObj->LastName = $last_name;
+$myObj->MobilePhone = $phone;
+$myObj->Email = $email;
+$myObj->Delivery_Address1 = $address1;
+$myObj->Delivery_Address2 = $address2;
+$myObj->Delivery_Address3 = "";
+$myObj->Delivery_Address4 = null;
+$myObj->Delivery_City = $city;
+$myObj->Delivery_County = $country;
+$myObj->Delivery_Postcode = $zip;
+$myObj->DeliveryService = $deliveryService;
+$myObj->DeliveryAgent = $deliveryAgent;
+$myObj->DeliveryCharge = null;
+$myObj->Comments = "";
+$myObj->OrderCancelled = false;
+$myObj->Misc1 = null;
+$myObj->Misc2 = null;
+$myObj->Misc3 = null;
+$myObj->Misc4 = null;
+$myObj->Misc5 = null;
+$myObj->Misc6 = null;
+$myObj->Misc7 = null;
+$myObj->Misc8 = null;
+$myObj->Misc9 = null;
+$myObj->Misc10 = null;
+$myObj->OrderItems = $json;
 
-    $myObj = new stdClass();
-    $myObj->AccountCode = "TESTACS";
-    $myObj->OrderNumber = $order_number;
-    $myObj->OrderDate = $created_at;
-    $myObj->DispatchDate = "2022-04-28";
-    $myObj->DeliveryDate = "2022-04-29";
-    $myObj->EventDate = "2022-04-30";
-    $myObj->WarehouseReturnDate = "2022-05-05";
+$myJSON = json_encode($myObj);
 
-    $myObj->FirstName = $first_name;
-    $myObj->LastName = $last_name;
-    $myObj->MobilePhone = $phone;
-    $myObj->Email = $email;
-    $myObj->Delivery_Address1 = $address1;
-    $myObj->Delivery_Address2 = $address2;
-    $myObj->Delivery_City = $city;
-    $myObj->Delivery_County = $country;
-    $myObj->Delivery_Postcode = $zip;
-    $myObj->DeliveryService = $deliveryService;
-    $myObj->DeliveryAgent = "DPD";
-    $myObj->DeliveryCharge = null;
-    $myObj->Comments = "";
-    $myObj->OrderCancelled = false;
-    $myObj->OrderItems = $lineItemVal1;
-
-    $myJSON = json_encode($myObj);
-
-
+$log = fopen('ordernew.log', 'w') or die('can not open the file');
+fwrite($log, 'Last Order Details - ' . $order_number);
+fwrite($log, '=============================');
+fwrite($log, $myJSON);
+fclose($log);
 ?>
 
+<?php
 
-
-<?php 
-
-  /*
+/*
     $servername = "localhost";
     $username = "root";
     $password = "123";
@@ -125,7 +135,7 @@
     }
     */
 
-      /*
+/*
         echo "Shopify Order Details</br>";
 
         $url = 'https://53d8b292ac04af188fe0e5042f590e2a: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@humidors-direct.myshopify.com/admin/api/2022-04/orders.json';
@@ -287,7 +297,7 @@
 
         echo $myJSON;
         */
-        /*
+/*
         "AccountCode": "TESTACS",
     "OrderNumber": "ZZ-220425-01",
     "OrderDate": "2022-04-27",
@@ -344,5 +354,5 @@
         //echo "lm.nerdydragon.com/customapi/getpostval.php?order_id=$id";
         
         */
-        
-    ?>
+
+?>
