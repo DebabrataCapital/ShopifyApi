@@ -116,11 +116,9 @@ $myObj->OrderItems = $json;
 
 $myJSON = json_encode($myObj);
 
-// $log = fopen('ordernew.log', 'w') or die('can not open the file');
-// fwrite($log, print_r($myObj, true));
-// fwrite($log, '=============================');
-// fwrite($log, print_r($data, true));
-// fclose($log);
+$log = fopen('ordernew.log', 'w') or die('can not open the file');
+fwrite($log, print_r($myObj, true));
+fclose($log);
 
 if(!empty($order_number)){
   $curl = curl_init();
@@ -139,11 +137,6 @@ if(!empty($order_number)){
 
   $resp = curl_exec($curl);
   curl_close($curl);
-
-  $log = fopen('ordernew.log', 'w') or die('can not open the file');
-  fwrite($log, print_r($myObj, true));
-  fwrite($log, $resp);
-  fclose($log);
   
 }else{
   echo "not call 2nd file";
