@@ -8,15 +8,15 @@ $webhook_content = NULL;
 $webhook = fopen('php://input', 'rb');
 $data = json_decode(file_get_contents('php://input'), true);
 $lineItemVal1 = array();
-
 $lineItemVal = $data['line_items'];
+
 foreach ($lineItemVal as $key => $lineItem) {
   $measurement_arr = array();
   if ($lineItem['variant_title']) {
-    $measurement = explode(" \/ ", $str);
+    $measurement = explode(" \/ ", $lineItem['variant_title']);
     foreach ($measurement as $k => $item) {
-      $key = 'Measurement' . $k + 1;
-      $measurement_arr[$key] = $item;
+      $key = 'Measurement'.($k+1);
+      $measurement_arr["$key"] = $item;
     }
   }
   $lineItems = array(
@@ -32,7 +32,12 @@ foreach ($lineItemVal as $key => $lineItem) {
     "Misc14" => null,
     "Misc15" => null
   );
-  $final = array_merge($lineItems, $measurement_arr);
+
+  if(sizeof($measurement_arr) != 0 ){
+    $final = array_merge($lineItems, $measurement_arr);
+  }else{
+    $final = $lineItems;
+  }
   $json[] = $final;
 }
 
@@ -109,12 +114,12 @@ $myObj->Misc9 = null;
 $myObj->Misc10 = null;
 $myObj->OrderItems = $json;
 
-$myJSON = json_encode($myObj);
+//$myJSON = json_encode($myObj);
 
 $log = fopen('ordernew.log', 'w') or die('can not open the file');
-fwrite($log, 'Last Order Details - ' . $order_number);
-fwrite($log, '=============================');
-fwrite($log, $myJSON);
+fwrite($log, print_r($myObj, true));
+//fwrite($log, '=============================');
+//fwrite($log, print_r($data, true));
 fclose($log);
 ?>
 
