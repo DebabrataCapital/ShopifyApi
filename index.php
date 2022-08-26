@@ -64,7 +64,7 @@ if (array_key_exists('code', $data['shipping_lines'])) {
     $deliveryService = "48";
     $deliveryAgent = "RM";
     $day = 2;
-  } else if (strstr($data['shipping_lines']['code'], "XL")) {
+  } else if (strstr($data['shipping_lines']['code'], "XL") || strstr($data['shipping_lines']['code'], "Large")) {
     $deliveryService = "ND";
     $deliveryAgent = "DPD";
     $day = 1;
@@ -121,23 +121,17 @@ fwrite($log, print_r($myObj, true));
 fclose($log);
 
 if(!empty($order_number)){
-  $curl = curl_init();
-  curl_setopt_array($curl, array(
-    CURLOPT_URL => "lm.nerdydragon.com/customapi/getpostval.php?order_number=$order_number",
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURLOPT_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'POST',
-    CURLOPT_HTTPHEADER => array('Content-Type:application/json'),
-    CURLOPT_POSTFIELDS => $myJSON,
-  ));
 
-  $resp = curl_exec($curl);
-  curl_close($curl);
-  
+  //$url = "lm.nerdydragon.com/customapi/getpostval.php?order_number=$order_number";
+  $url = "https://uat-partnerapis.acsclothing.co.uk/api/v1/orders/$order_number";
+  $ch = curl_init($url);
+  curl_setopt( $ch, CURLOPT_POSTFIELDS, $myJSON );
+  curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+  # Return response instead of printing.
+  curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+  $result = curl_exec($ch);
+  curl_close($ch);
+
 }else{
   echo "not call 2nd file";
 }
