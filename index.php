@@ -126,11 +126,12 @@ if(!empty($order_number)){
   //$url = "https://uat-partnerapis.acsclothing.co.uk/api/v1/orders/$order_number";
   $url = "https://uat-apis.acsclothing.co.uk/api/partner/v1/orders/$order_number.json";
   $ch = curl_init($url);
-  curl_setopt( $ch, CURLOPT_POSTFIELDS, $myJSON );
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+  curl_setopt($ch, CURLOPT_POSTFIELDS,$myJSON);
   //curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-  curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Ocp-Apim-Subscription-Key:01c2b8321fc54e349a9f2ce55c2e15db'));
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Ocp-Apim-Subscription-Key:01c2b8321fc54e349a9f2ce55c2e15db'));
   # Return response instead of printing.
-  curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
   $result = curl_exec($ch);
   curl_close($ch);
 
