@@ -129,7 +129,7 @@ if(!empty($order_number)){
   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
   curl_setopt($ch, CURLOPT_POSTFIELDS,$myJSON);
   //curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Ocp-Apim-Subscription-Key:01c2b8321fc54e349a9f2ce55c2e15db'));
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Ocp-Apim-Subscription-Key:c6a5deceb469438387866c3117f3b201'));
   # Return response instead of printing.
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
   $result = curl_exec($ch);
