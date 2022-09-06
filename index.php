@@ -24,8 +24,7 @@ foreach ($lineItemVal as $key => $lineItem) {
     'GarmentSku' => $lineItem['sku'],
     'IsHire' => true,
     'ItemPrice' => $lineItem['price'],
-    'ItemQuantity' => $lineItem['quantity'],
-    'ItemVariantId' => $lineItem['variant_id']
+    'ItemQuantity' => $lineItem['quantity']
   );
 
   if(sizeof($measurement_arr) != 0 ){
