@@ -25,12 +25,7 @@ foreach ($lineItemVal as $key => $lineItem) {
     'IsHire' => true,
     'ItemPrice' => $lineItem['price'],
     'ItemQuantity' => $lineItem['quantity'],
-    'ItemVariantId' => $lineItem['variant_id'],
-    'Misc11' => null,
-    "Misc12" => null,
-    "Misc13" => null,
-    "Misc14" => null,
-    "Misc15" => null
+    'ItemVariantId' => $lineItem['variant_id']
   );
 
   if(sizeof($measurement_arr) != 0 ){
@@ -102,16 +97,6 @@ $myObj->DeliveryAgent = $deliveryAgent;
 $myObj->DeliveryCharge = null;
 $myObj->Comments = "";
 $myObj->OrderCancelled = false;
-$myObj->Misc1 = null;
-$myObj->Misc2 = null;
-$myObj->Misc3 = null;
-$myObj->Misc4 = null;
-$myObj->Misc5 = null;
-$myObj->Misc6 = null;
-$myObj->Misc7 = null;
-$myObj->Misc8 = null;
-$myObj->Misc9 = null;
-$myObj->Misc10 = null;
 $myObj->OrderItems = $json;
 
 $myJSON = json_encode($myObj);
