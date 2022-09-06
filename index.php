@@ -73,22 +73,22 @@ $warehouseReturnDate = date('Y-m-d', strtotime($dispatchDate . ' +100 years'));
 
 $myObj = new stdClass();
 $myObj->AccountCode = "TESTACS";
-$myObj->OrderNumber = $order_number;
-$myObj->OrderDate = date("Y-m-d", strtotime($created_at));
-$myObj->DispatchDate = $dispatchDate;
-$myObj->DeliveryDate = $deliveryDate;
-$myObj->EventDate = $eventDate;
-$myObj->WarehouseReturnDate = $warehouseReturnDate;
+$myObj->OrderNumber = strval($order_number);
+$myObj->OrderDate = strval(date("Y-m-d", strtotime($created_at)));
+$myObj->DispatchDate = strval($dispatchDate);
+$myObj->DeliveryDate = strval($deliveryDate);
+$myObj->EventDate = strval($eventDate);
+$myObj->WarehouseReturnDate = strval($warehouseReturnDate);
 
-$myObj->FirstName = $first_name;
-$myObj->LastName = $last_name;
-$myObj->MobilePhone = $phone;
-$myObj->Email = $email;
-$myObj->Delivery_Address1 = $address1;
-$myObj->Delivery_City = $city;
-$myObj->Delivery_Postcode = $zip;
-$myObj->DeliveryService = $deliveryService;
-$myObj->DeliveryAgent = $deliveryAgent;
+$myObj->FirstName = strval($first_name);
+$myObj->LastName = strval($last_name);
+$myObj->MobilePhone = strval($phone);
+$myObj->Email = strval($email);
+$myObj->Delivery_Address1 = strval($address1);
+$myObj->Delivery_City = strval($city);
+$myObj->Delivery_Postcode = strval($zip);
+$myObj->DeliveryService = strval($deliveryService);
+$myObj->DeliveryAgent = strval($deliveryAgent);
 $myObj->OrderItems = $json;
 
 $myJSON = json_encode($myObj);
