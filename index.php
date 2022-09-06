@@ -21,7 +21,7 @@ foreach ($lineItemVal as $key => $lineItem) {
   }
   $lineItems = array(
     'LineItemId'   => $lineItem['id'],
-    'GarmentSku' => $lineItem['sku'],
+    'GarmentSKU' => $lineItem['sku'],
     'IsHire' => true,
     'ItemPrice' => $lineItem['price'],
     'ItemQuantity' => $lineItem['quantity']
