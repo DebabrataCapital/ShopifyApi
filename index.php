@@ -73,7 +73,7 @@ $warehouseReturnDate = date('Y-m-d', strtotime($dispatchDate . ' +100 years'));
 
 $myObj = new stdClass();
 $myObj->AccountCode = "TESTACS";
-$myObj->OrderNumber = strval($order_number);
+$myObj->OrderNumber = $order_number;
 $myObj->OrderDate = date("Y-m-d", strtotime($created_at));
 $myObj->DispatchDate = $dispatchDate;
 $myObj->DeliveryDate = $deliveryDate;
