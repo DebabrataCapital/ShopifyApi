@@ -87,7 +87,6 @@ $myObj->MobilePhone = $phone;
 $myObj->Email = $email;
 $myObj->Delivery_Address1 = $address1;
 $myObj->Delivery_City = $city;
-$myObj->Delivery_County = $country;
 $myObj->Delivery_Postcode = $zip;
 $myObj->DeliveryService = $deliveryService;
 $myObj->DeliveryAgent = $deliveryAgent;
