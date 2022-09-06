@@ -20,7 +20,7 @@ foreach ($lineItemVal as $key => $lineItem) {
     }
   }
   $lineItems = array(
-    'LineItemId'   => $lineItem['id'],
+    'LineItemId'   => strval($lineItem['id']),
     'GarmentSKU' => $lineItem['sku'],
     'IsHire' => true,
     'ItemPrice' => $lineItem['price'],
@@ -73,7 +73,7 @@ $warehouseReturnDate = date('Y-m-d', strtotime($dispatchDate . ' +100 years'));
 
 $myObj = new stdClass();
 $myObj->AccountCode = "TESTACS";
-$myObj->OrderNumber = $order_number;
+$myObj->OrderNumber = strval($order_number);
 $myObj->OrderDate = date("Y-m-d", strtotime($created_at));
 $myObj->DispatchDate = $dispatchDate;
 $myObj->DeliveryDate = $deliveryDate;
@@ -86,7 +86,7 @@ $myObj->MobilePhone = $phone;
 $myObj->Email = $email;
 $myObj->Delivery_Address1 = $address1;
 $myObj->Delivery_City = $city;
-$myObj->Delivery_Postcode = $zip;
+$myObj->Delivery_Postcode = strval($zip);
 $myObj->DeliveryService = $deliveryService;
 $myObj->DeliveryAgent = $deliveryAgent;
 $myObj->OrderItems = $json;
