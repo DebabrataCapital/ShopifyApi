@@ -20,12 +20,11 @@ foreach ($lineItemVal as $key => $lineItem) {
     }
   }
   $lineItems = array(
-    'LineItemId'   => $lineItem['id'],
-    'GarmentSku' => $lineItem['sku'],
-    'IsHire' => true,
+    'LineItemId'   => strval($lineItem['id']),
+    'GarmentSKU' => strval($lineItem['sku']),
+    'IsHire' => 1
     'ItemPrice' => $lineItem['price'],
-    'ItemQuantity' => $lineItem['quantity'],
-    'ItemVariantId' => $lineItem['variant_id']
+    'ItemQuantity' => $lineItem['quantity']
   );
 
   if(sizeof($measurement_arr) != 0 ){
